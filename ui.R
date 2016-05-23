@@ -8,22 +8,22 @@
 library(shiny)
 
 shinyUI(fluidPage(
-
+    
+  tags$head(includeScript("googanal.js")),
   # Application title
   titlePanel("Wounded Duck Dynasty"),
 
-  # Sidebar with a slider input for number of bins
-  sidebarLayout(
-    sidebarPanel(
-        selectInput(
-            'owner', 'Team Owner', choices = c("All","Adam","Alex","Billy", "Brad","Dan","Brendan","Decker","Derek","Fischetti","Jono","Justin","Nathan","Pealer","Rob")  ,
-            selectize = FALSE
-        )
-    ),
-
-    # Show a plot of the generated distribution
-    mainPanel(
-      plotOutput("distPlot")
-    )
+  plotOutput("distPlot"),
+  
+  hr(),
+  fluidRow(
+      column(3,
+             h4("Filter"),
+             selectInput(
+                 'owner', 'Team Owner', choices = c("All","Adam","Alex","Billy", "Brad","Dan","Brendan","Decker","Derek","Fischetti","Jono","Justin","Nathan","Pealer","Rob")  ,
+                 selectize = FALSE
+             )
+      )
   )
+ 
 ))
