@@ -13,7 +13,7 @@ shinyUI(fluidPage(
   # Application title
   titlePanel("Wounded Duck Dynasty"),
 
-  plotOutput("distPlot"),
+  plotOutput("distPlot", width=3200),
   
   hr(),
   fluidRow(

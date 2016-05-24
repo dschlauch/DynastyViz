@@ -1,4 +1,4 @@
-devtools::install_git("https://github.com/jennybc/googlesheets.git")
+# devtools::install_git("https://github.com/jennybc/googlesheets.git")
 library(googlesheets)
 library(dplyr)
 library(data.table)
