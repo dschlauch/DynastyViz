@@ -5,17 +5,25 @@ library(data.table)
 library(ggplot2)
 library(ggrepel)
 
-gap <- gs_url("https://docs.google.com/spreadsheets/d/1Tni3kzz4kfVTNorAesZWorT-vyt8fBcPyOasTR3qBFs")
+gap <- gs_title("Official Dynasty Football Roster Sheet")
+# gap <- gs_url("https://docs.google.com/spreadsheets/d/1Tni3kzz4kfVTNorAesZWorT-vyt8fBcPyOasTR3qBFs")
+# 
+# key <- extract_key_from_url("https://docs.google.com/spreadsheets/d/1Tni3kzz4kfVTNorAesZWorT-vyt8fBcPyOasTR3qBFs")
+# ss <- gs_key(key, lookup = FALSE)
+
+
 
 wsnames <- gs_ws_ls(gap)[2:15]
 
 allsheets <- list()
 
+starttime <- Sys.time()
 while(length(allsheets)<14){
     try({for(sheet in wsnames[!wsnames%in%names(allsheets)]){
         allsheets[[sheet]] <- gs_read(gap,ws = sheet)
     } }, silent = FALSE)
-    
+    if 
+    if(Sys.time()-starttime>300){break} # Give up after 4 minutes
 }
 names(allsheets)
 
@@ -31,4 +39,5 @@ playerSalaries[,3:6] <- lapply(playerSalaries[,3:6, with=F], function(x){as.nume
 playerSalaries <- playerSalaries[order(-Salary2016)]
 playerSalaries$Player <- factor(playerSalaries$Player, levels = playerSalaries$Player)
 
-saveRDS(playerSalaries,"./playerSalaries.RDS")
+saveRDS(playerSalaries,"./data/playerSalaries.RDS")
+
