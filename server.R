@@ -18,9 +18,9 @@ shinyServer(function(input, output) {
 
     output$plot.ui <- renderUI({
         if(input$displayAll | (input$owner=="All"&input$pos=="All")){
-            plotOutput("distPlot", width=3200)    
+            plotOutput("distPlot", width=3200, height=600)    
         } else {
-            plotOutput("distPlot", width=1200)
+            plotOutput("distPlot", width=1200, height=600)
         }
         
     })
