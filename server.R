@@ -20,7 +20,7 @@ shinyServer(function(input, output) {
         if(input$displayAll | (input$owner=="All"&input$pos=="All")){
             plotOutput("distPlot", width=3200)    
         } else {
-            plotOutput("distPlot", width=800)
+            plotOutput("distPlot", width=1200)
         }
         
     })
