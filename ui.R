@@ -13,7 +13,7 @@ shinyUI(fluidPage(
   # Application title
   titlePanel("Wounded Duck Dynasty"),
 
-  plotOutput("distPlot", width=3200),
+  uiOutput("plot.ui", width=3200),
   
   hr(),
   fluidRow(
@@ -22,8 +22,15 @@ shinyUI(fluidPage(
              selectInput(
                  'owner', 'Team Owner', choices = c("All","Adam","Alex","Billy", "Brad","Dan","Brendan","Decker","Derek","Fischetti","Jono","Justin","Nathan","Pealer","Rob")  ,
                  selectize = FALSE
+             ),
+             selectInput(
+                 'pos', 'Position', choices = c("All","QB","RB","WR","TE", "D","K","Long-Snapper")  ,
+                 selectize = FALSE
              )
-      )
+      ),
+      column(3,
+             checkboxInput('displayAll', "Display All", value = T, width = NULL)
+        )
   )
  
 ))

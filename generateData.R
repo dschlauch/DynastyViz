@@ -22,18 +22,18 @@ while(length(allsheets)<14){
     try({for(sheet in wsnames[!wsnames%in%names(allsheets)]){
         allsheets[[sheet]] <- gs_read(gap,ws = sheet)
     } }, silent = FALSE)
-    if 
     if(Sys.time()-starttime>300){break} # Give up after 4 minutes
 }
 names(allsheets)
 
 playerSalaries <- data.table(do.call(rbind,sapply(names(allsheets),function(x){
-    do.call(cbind,allsheets[[x]][1:6]) %>% cbind("Owner"=x)
+    do.call(cbind,allsheets[[x]][1:7]) %>% cbind("Owner"=x)
 })))
-names(playerSalaries)[1:6] <- c("Position","Player","Salary2014","Salary2015","Salary2016","Salary2017")
+names(playerSalaries)[1:7] <- c("RosterSpot","Player","Position","Salary2014","Salary2015","Salary2016","Salary2017")
 keywords <- c("TOTAL","NET CASH","SPENT","$298","CAP","$300","CAP SPACE")
 playerSalaries <- playerSalaries[!Player%in%keywords & !is.na(Player)]
-playerSalaries[,3:6] <- lapply(playerSalaries[,3:6, with=F], function(x){as.numeric(gsub("\\$", "", x))})
+salaryColumns <- 4:7
+playerSalaries[,salaryColumns] <- lapply(playerSalaries[,salaryColumns, with=F], function(x){as.numeric(gsub("\\$", "", x))})
 
 300*14-sum(playerSalaries$Salary2016)
 playerSalaries <- playerSalaries[order(-Salary2016)]
@@ -41,3 +41,4 @@ playerSalaries$Player <- factor(playerSalaries$Player, levels = playerSalaries$P
 
 saveRDS(playerSalaries,"./data/playerSalaries.RDS")
 
+# write.table(playerSalaries, "dynasty_data.csv", sep=",", row.names=F)
