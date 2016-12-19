@@ -13,7 +13,6 @@ shinyUI(fluidPage(
   # Application title
   titlePanel("Wounded Duck Dynasty"),
 
-  uiOutput("plot.ui", width=3200),
   
   hr(),
   fluidRow(
@@ -31,6 +30,7 @@ shinyUI(fluidPage(
       column(3,
              checkboxInput('displayAll', "Display All", value = T, width = NULL)
         )
-  )
- 
+  ),
+  
+  uiOutput("plot.ui", width=800)
 ))
