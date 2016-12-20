@@ -13,38 +13,54 @@ library(shiny)
 
 playerSalaries <- readRDS("./data/playerSalaries.RDS")
 owners <- c("Adam","Alex","Billy", "Brad","Dan","Brendan","Decker","Derek","Fischetti","Jono","Justin","Nathan","Pealer","Rob")
-positions <- c("QB","RB","WR","TE", "D","K")
+positions <- c("QB","RB","WR","TE", "D","K","NA")
 
 shinyServer(function(input, output) {
 
     output$plot.ui <- renderUI({
-        if(input$displayAll | (input$owner=="All"&input$pos=="All")){
-            plotOutput("distPlot", width=800, height=3200)    
-        } else {
-            plotOutput("distPlot", width=800, height=1600)
-        }
+            if(input$owner=="All"){
+                ownerFilter <- T
+            } else {
+                ownerFilter <- playerSalaries$Owner %in% input$owner
+            }
+            if(input$pos=="All"){
+                positionsFilter <- T
+            } else {
+                positionsFilter <- playerSalaries$Position %in% input$pos
+            }
+            displayAll <- input$displayAll
+            if(!displayAll){
+                playerSalaries <- playerSalaries[positionsFilter&ownerFilter]
+            }
+            plotOutput("distPlot", width=800, height = nrow(playerSalaries)*8+100)
+        
         
     })
   output$distPlot <- renderPlot({
-      owner <- input$owner
-      pos <- input$pos
       
-      if(owner=="All"){
-          owner <- owners
+      if(input$owner=="All"){
+          ownerFilter <- T
+      } else {
+          ownerFilter <- playerSalaries$Owner %in% input$owner
       }
-      if(pos=="All"){
-          pos <- positions
+      if(input$pos=="All"){
+          positionsFilter <- T
+      } else {
+          positionsFilter <- playerSalaries$Position %in% input$pos
       }
       displayAll <- input$displayAll
-      
       if(!displayAll){
-          playerSalaries <- playerSalaries[Owner%in%owner&Position%in%pos]
+          playerSalaries <- playerSalaries[positionsFilter&ownerFilter]
+          highlightNames <- rep(T,nrow(playerSalaries))
+      } else {
+          highlightNames <- rep(T,nrow(playerSalaries))&(ownerFilter & positionsFilter)
       }
       # if(owner=="All"){
-      ggplot(playerSalaries, aes(x=reorder(Player, Salary2016),y=Salary2016)) + geom_point(aes(col=Owner))  +scale_x_discrete(expand=c(0, 5)) + scale_y_continuous(limits=c(0,155),labels=dollar,sec.axis = dup_axis()) + 
-          geom_text(aes(label=Player, alpha=.05+.95*(Owner%in%owner & Position%in%pos)),hjust=-.1,angle=0, size=3)  + 
+      ggplot(playerSalaries, aes(x=reorder(Player, Salary2016),y=Salary2016)) + geom_point(aes(col=Owner)) + scale_x_discrete(expand=c(0, 1)) + 
+          scale_y_continuous(limits=c(0,155),labels=dollar,sec.axis = dup_axis(),breaks=pretty_breaks(n=10)) + 
+          geom_text(aes(label=Player, alpha=.05+.95*highlightNames),hjust=-.1,angle=0, size=3)  + 
           xlab("Player") + ylab("2016 Salary") +
-          theme_bw() +theme(axis.text.y = element_blank(), axis.ticks.y = element_blank(), legend.position="none") + coord_flip()
+          theme_bw() +theme(axis.text.y = element_blank(), axis.ticks.y = element_blank(), panel.grid.major.y = element_blank(), legend.position="none") + coord_flip()
           
       # } else {
       #     ggplot(playerSalaries, aes(x=Player,y=Salary2016)) + geom_point(aes(col=(Owner%in%owner)))  +scale_x_discrete(expand=c(0, 5)) + scale_y_continuous(limits=c(0,155)) + 
