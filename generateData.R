@@ -55,7 +55,7 @@ fp$Position[fp$Position=="DST"] <- "D"
 mingames <- 5
 RB_replace_rank <- 40
 WR_replace_rank <- 80
-QB_replace_rank <- 28
+QB_replace_rank <- 22
 TE_replace_rank <- 35
 K_replace_rank <- 14
 DST_replace_rank <- 20
