@@ -43,7 +43,7 @@ playerSalaries[,salaryColumns] <- lapply(playerSalaries[,salaryColumns, with=F],
 playerSalaries <- playerSalaries[order(-Salary2016)]
 playerSalaries$Player <- factor(playerSalaries$Player, levels = playerSalaries$Player)
 
-points_url <- "https://www.fantasypros.com/nfl/reports/leaders/ppr.php?year=2016&week=1:17"
+points_url <- "https://www.fantasypros.com/nfl/reports/leaders/?year=2016&week=1:17"
 fp <- as.data.table(read_html(points_url) %>% html_table() %>% .[[1]])
 
 intersect(fp$Player, playerSalaries$Player)
@@ -52,7 +52,7 @@ mingames <- 5
 RB_replace_rank <- 40
 WR_replace_rank <- 80
 QB_replace_rank <- 28
-TE_replace_rank <- 28
+TE_replace_rank <- 35
 K_replace_rank <- 14
 DST_replace_rank <- 20
 
