@@ -28,7 +28,7 @@ shinyServer(function(input, output) {
             if(!displayAll){
                 playerDataMerged <- playerDataMerged[positionsFilter&ownerFilter]
             }
-            plotOutput("distPlot", width=1200, height = nrow(playerDataMerged)*8+100)
+            plotOutput("distPlot", width=1200, height = nrow(playerDataMerged)*8+160)
         
         
     })
