@@ -11,7 +11,7 @@ shinyUI(fluidPage(
     
   tags$head(includeScript("googanal.js")),
   # Application title
-  titlePanel("Wounded Duck Dynasty"),
+  titlePanel("Wounded Duck Dynasty: Salary vs VORP"),
 
   
   hr(),
@@ -28,9 +28,13 @@ shinyUI(fluidPage(
              )
       ),
       column(3,
-             checkboxInput('displayAll', "Display All", value = T, width = NULL)
+             radioButtons('displayAll', "Display:",
+                          c("All"="all","Filter"="filter")),
+             radioButtons("sortBy", "Sort by:",
+                          c("2016 Salary" = "salary",
+                            "Value over replacement" = "vorp"))
         )
   ),
   
-  uiOutput("plot.ui", width=800)
+  uiOutput("plot.ui", width=1200)
 ))

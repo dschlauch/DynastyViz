@@ -21,6 +21,9 @@ wsnames <- gs_ws_ls(gap)[2:15]
 
 allsheets <- list()
 
+
+# Google seems to be really resistant to scraping sheets...
+# So keep trying until Google lets us in.
 starttime <- Sys.time()
 while(length(allsheets)<14){
     try({for(sheet in wsnames[!wsnames%in%names(allsheets)]){
