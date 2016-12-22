@@ -55,6 +55,10 @@ intersect(fp$Player, playerSalaries$Player)
 fp$Player[fp$Position=="DST"] <- paste(unlist(lapply(strsplit(fp[Position=="DST",Player],split=" "),tail, 1)), "D/ST")
 fp$Position[fp$Position=="DST"] <- "D"
 
+# Correct Michael Thomas
+playerSalaries[grepl("thomas la",Player,ignore.case = T)]$Player <- "Mike Thomas"
+playerSalaries[grepl("thomas no",Player,ignore.case = T)]$Player <- "Michael Thomas"
+
 mingames <- 5
 RB_replace_rank <- 40
 WR_replace_rank <- 80
