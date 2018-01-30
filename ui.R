@@ -11,30 +11,43 @@ shinyUI(fluidPage(
     
   tags$head(includeScript("googanal.js")),
   # Application title
-  titlePanel("Wounded Duck Dynasty: Salary vs VORP"),
+  titlePanel("wekf89700wegewg"),
 
   
   hr(),
-  fluidRow(
-      column(3,
-             h4("Filter"),
-             selectInput(
-                 'owner', 'Team Owner', choices = c("All","Adam","Alex","Billy", "Brad","Dan","Brendan","Decker","Derek","Fischetti","Jono","Justin","Nathan","Pealer","Rob")  ,
-                 selectize = FALSE
+  tabsetPanel(
+    tabPanel("Players",
+             fluidRow(
+               column(12,
+                      dataTableOutput('table')
+               ))
+    ),
+    tabPanel("Salary vs VORP",
+             fluidRow(
+               column(3,
+                      h4("Filter"),
+                      selectInput(
+                        'owner', 'Team Owner', choices = c('All','Adam','AMac','Bard','Billy','Brendan','Dan','Decker','Derek','Fishy','Jono','Justin','Nate','Pard','Rob')  ,
+                        selectize = FALSE
+                      ),
+                      selectInput(
+                        'pos', 'Position', choices = c("All","QB","RB","WR","TE", "D","K","Long-Snapper")  ,
+                        selectize = FALSE
+                      )
+               ),
+               column(3,
+                      radioButtons('displayAll', "Display:",
+                                   c("All"="all","Filter"="filter")),
+                      radioButtons("sortBy", "Sort by:",
+                                   c("2017 Salary" = "salary",
+                                     "Value over replacement" = "vorp"))
+               )
              ),
-             selectInput(
-                 'pos', 'Position', choices = c("All","QB","RB","WR","TE", "D","K","Long-Snapper")  ,
-                 selectize = FALSE
-             )
-      ),
-      column(3,
-             radioButtons('displayAll', "Display:",
-                          c("All"="all","Filter"="filter")),
-             radioButtons("sortBy", "Sort by:",
-                          c("2016 Salary" = "salary",
-                            "Value over replacement" = "vorp"))
-        )
-  ),
-  
-  uiOutput("plot.ui", width=1200)
+             
+             uiOutput("plot.ui", width=1200)
+           ),
+    tabPanel("Valuations",
+             actionButton("value_button", "View valuations")
+    )
+  )
 ))
